@@ -1,0 +1,45 @@
+apiVersion: 1
+
+datasources:
+  - name: PostgreSQL
+    type: postgres
+    access: proxy
+    url: purchase-order-postgres:5432
+    database: habib_ali_machpud
+    user: po_user
+    secureJsonData:
+      password: qz0I81Z!
+    jsonData:
+      sslmode: disable
+      maxOpenConns: 10
+      maxIdleConns: 2
+      connMaxLifetime: 14400
+      postgresVersion: 1600
+      timescaledb: false
+    isDefault: false
+    editable: true
+
+  - name: Prometheus
+    type: prometheus
+    access: proxy
+    url: http://host.containers.internal:8080/actuator/prometheus
+    isDefault: true
+    editable: true
+    jsonData:
+      httpMethod: GET
+      timeInterval: 30s
+      queryTimeout: 60s
+    uid: prometheus-uid
+
+  - name: Redis
+    type: redis-datasource
+    access: proxy
+    url: redis://purchase-order-redis:6379
+    isDefault: false
+    editable: true
+    jsonData:
+      client: standalone
+      poolSize: 5
+      timeout: 10
+      pingInterval: 0
+      pipelineWindow: 0
