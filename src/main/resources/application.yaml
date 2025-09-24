@@ -1,0 +1,22 @@
+spring:
+  application:
+    name: myboost-po-system
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://localhost:5432/habib_ali_machpud
+    name: po_user
+    password: ${DB_PASS}
+    hikari:
+      maximum-pool-size: 20
+      minimum-idle: 5
+      connection-timeout: 30000
+      idle-timeout: 600000
+      max-lifetime: 1800000
+      leak-detection-threshold: 60000
+      pool-name: BoostPOHikariCP
+      connection-test-query: SELECT 1
+  liquibase:
+    change-log: classpath:/db/changelog/changelog-root.yaml
+    enabled: true
+    drop-first: false
+    default-schema: habib_ali_machpud
