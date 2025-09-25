@@ -1,10 +1,10 @@
-package io.github.bluething.myboostposystem.rest;
+package io.github.bluething.myboostposystem.rest.user;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 
-record CreateUserRequest(@NotBlank(message = "First name is required")
+record UpdateUserRequest(@NotBlank(message = "First name is required")
                          @Size(max = 500, message = "First name must not exceed 500 characters")
                          String firstName,
 

@@ -1,6 +1,7 @@
-package io.github.bluething.myboostposystem.rest;
+package io.github.bluething.myboostposystem.rest.user;
 
 import io.github.bluething.myboostposystem.persistence.UserRepository;
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
@@ -17,7 +18,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.DynamicPropertyRegistry;
 import org.springframework.test.context.DynamicPropertySource;
-import org.springframework.transaction.annotation.Transactional;
 import org.testcontainers.containers.PostgreSQLContainer;
 import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
@@ -187,7 +187,7 @@ class UserControllerIntegrationTest {
             assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
             PageDto<UserResponse> page = response.getBody();
             assertThat(page).isNotNull();
-            assertThat(page.content()).hasSize(3);
+            Assertions.assertThat(page.content()).hasSize(3);
             assertThat(page.page().totalElements()).isEqualTo(5);
             assertThat(page.page().totalPages()).isEqualTo(2);
             assertThat(page.page().number()).isEqualTo(0);
@@ -209,7 +209,7 @@ class UserControllerIntegrationTest {
             assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
             PageDto<UserResponse> page = response.getBody();
             assertThat(page).isNotNull();
-            assertThat(page.content()).isEmpty();
+            Assertions.assertThat(page.content()).isEmpty();
             assertThat(page.page().totalElements()).isZero();
         }
     }
@@ -471,7 +471,7 @@ class UserControllerIntegrationTest {
 
             // Then - Verify first page
             PageDto<UserResponse> page1 = page1Response.getBody();
-            assertThat(page1.content()).hasSize(5);
+            Assertions.assertThat(page1.content()).hasSize(5);
             assertThat(page1.page().totalElements()).isEqualTo(15);
             assertThat(page1.page().totalPages()).isEqualTo(3);
             assertThat(page1.page().number()).isEqualTo(0);
@@ -483,7 +483,7 @@ class UserControllerIntegrationTest {
                     new ParameterizedTypeReference<PageDto<UserResponse>>() {}
             );
             PageDto<UserResponse> page2 = page2Response.getBody();
-            assertThat(page2.content()).hasSize(5);
+            Assertions.assertThat(page2.content()).hasSize(5);
             assertThat(page2.page().number()).isEqualTo(1);
 
             // Last page
@@ -493,7 +493,7 @@ class UserControllerIntegrationTest {
                     new ParameterizedTypeReference<PageDto<UserResponse>>() {}
             );
             PageDto<UserResponse> page3 = page3Response.getBody();
-            assertThat(page3.content()).hasSize(5);
+            Assertions.assertThat(page3.content()).hasSize(5);
             assertThat(page3.page().number()).isEqualTo(2);
         }
     }

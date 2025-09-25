@@ -1,4 +1,4 @@
-package io.github.bluething.myboostposystem.rest;
+package io.github.bluething.myboostposystem.rest.user;
 
 import java.time.Instant;
 

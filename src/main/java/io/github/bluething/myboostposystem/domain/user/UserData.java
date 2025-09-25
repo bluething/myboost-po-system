@@ -1,4 +1,4 @@
-package io.github.bluething.myboostposystem.domain;
+package io.github.bluething.myboostposystem.domain.user;
 
 import lombok.Builder;
 

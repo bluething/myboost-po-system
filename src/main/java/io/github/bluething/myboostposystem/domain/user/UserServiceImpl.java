@@ -1,4 +1,4 @@
-package io.github.bluething.myboostposystem.domain;
+package io.github.bluething.myboostposystem.domain.user;
 
 import io.github.bluething.myboostposystem.exception.DuplicateResourceException;
 import io.github.bluething.myboostposystem.persistence.User;
@@ -11,7 +11,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.Instant;
-import java.util.List;
 import java.util.Optional;
 
 @Service

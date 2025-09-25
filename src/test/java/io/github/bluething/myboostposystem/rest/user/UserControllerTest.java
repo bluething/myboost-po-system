@@ -1,10 +1,10 @@
-package io.github.bluething.myboostposystem.rest;
+package io.github.bluething.myboostposystem.rest.user;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import io.github.bluething.myboostposystem.domain.CreateUserCommand;
-import io.github.bluething.myboostposystem.domain.UpdateUserCommand;
-import io.github.bluething.myboostposystem.domain.UserData;
-import io.github.bluething.myboostposystem.domain.UserService;
+import io.github.bluething.myboostposystem.domain.user.CreateUserCommand;
+import io.github.bluething.myboostposystem.domain.user.UpdateUserCommand;
+import io.github.bluething.myboostposystem.domain.user.UserData;
+import io.github.bluething.myboostposystem.domain.user.UserService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
