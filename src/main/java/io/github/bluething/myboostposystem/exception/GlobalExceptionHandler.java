@@ -139,4 +139,27 @@ class GlobalExceptionHandler {
         log.warn("Duplicate resource: {}", ex.getMessage());
         return ResponseEntity.status(HttpStatus.CONFLICT).body(errorResponse);
     }
+
+    @ExceptionHandler(org.springframework.web.method.annotation.MethodArgumentTypeMismatchException.class)
+    public ResponseEntity<ErrorResponse> handleMethodArgumentTypeMismatch(
+            org.springframework.web.method.annotation.MethodArgumentTypeMismatchException ex,
+            WebRequest request) {
+
+        String message = String.format("Invalid value '%s' for parameter '%s'. Expected type: %s",
+                ex.getValue(),
+                ex.getName(),
+                ex.getRequiredType() != null ? ex.getRequiredType().getSimpleName() : "unknown");
+
+        ErrorResponse errorResponse = new ErrorResponse(
+                HttpStatus.BAD_REQUEST.value(),
+                "Invalid parameter type",
+                message,
+                request.getDescription(false),
+                LocalDateTime.now(),
+                null
+        );
+
+        log.warn("Method argument type mismatch: {}", message);
+        return ResponseEntity.badRequest().body(errorResponse);
+    }
 }
