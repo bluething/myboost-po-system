@@ -1,3 +1,5 @@
+app:
+  timezone: Asia/Jakarta
 spring:
   application:
     name: myboost-po-system
