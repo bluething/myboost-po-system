@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/api/v1/users")
 @Slf4j
 class UserController {
+
     /**
      * Get all users with pagination support
      *
