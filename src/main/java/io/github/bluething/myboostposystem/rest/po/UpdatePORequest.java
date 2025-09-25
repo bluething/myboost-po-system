@@ -3,10 +3,12 @@ package io.github.bluething.myboostposystem.rest.po;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.*;
+import lombok.Builder;
 
 import java.time.LocalDateTime;
 import java.util.List;
 
+@Builder
 record UpdatePORequest(@JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
                        @NotNull(message = "Datetime is required")
                        LocalDateTime datetime,

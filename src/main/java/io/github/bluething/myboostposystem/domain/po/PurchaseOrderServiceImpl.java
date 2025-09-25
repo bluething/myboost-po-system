@@ -169,7 +169,7 @@ class PurchaseOrderServiceImpl implements PurchaseOrderService {
         return PurchaseOrderDetail.builder()
                 .item(item)
                 .itemQty(detail.quantity())
-                .itemCost(detail.cost() != null ? detail.unitPrice() : item.getCost())
+                .itemCost(detail.cost() != null ? detail.cost() : item.getCost())
                 .itemPrice(detail.unitPrice() != null ? detail.unitPrice() : item.getPrice())
                 .build();
     }

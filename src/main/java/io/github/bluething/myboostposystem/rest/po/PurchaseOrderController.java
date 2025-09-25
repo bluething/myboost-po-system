@@ -132,7 +132,7 @@ class PurchaseOrderController {
 
     private Response toResponse(POData data) {
         List<DetailResponse> details = data.details().stream()
-                .map(d -> new DetailResponse(d.itemId(), d.quantity(), d.unitPrice(), d.cost()))
+                .map(d -> new DetailResponse(d.itemId(), d.quantity(), d.cost(), d.unitPrice()))
                 .toList();
 
         return new Response(
