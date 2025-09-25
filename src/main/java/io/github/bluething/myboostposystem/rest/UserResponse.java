@@ -1,14 +1,14 @@
 package io.github.bluething.myboostposystem.rest;
 
-import java.time.LocalDateTime;
+import java.time.Instant;
 
-public record UserResponse(Integer id,
+record UserResponse(Integer id,
                            String firstName,
                            String lastName,
                            String email,
                            String phone,
                            String createdBy,
                            String updatedBy,
-                           LocalDateTime createdDatetime,
-                           LocalDateTime updatedDatetime) {
+                           Instant createdDatetime,
+                           Instant updatedDatetime) {
 }

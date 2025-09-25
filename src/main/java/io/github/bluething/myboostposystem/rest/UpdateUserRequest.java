@@ -4,7 +4,7 @@ import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 
-record UserCreateRequest(@NotBlank(message = "First name is required")
+record UpdateUserRequest(@NotBlank(message = "First name is required")
                          @Size(max = 500, message = "First name must not exceed 500 characters")
                          String firstName,
 
@@ -17,8 +17,5 @@ record UserCreateRequest(@NotBlank(message = "First name is required")
                          String email,
 
                          @Size(max = 20, message = "Phone must not exceed 20 characters")
-                         String phone,
-
-                         @NotBlank(message = "Created by is required")
-                         String createdBy) {
+                         String phone) {
 }

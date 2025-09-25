@@ -1,6 +1,12 @@
 package io.github.bluething.myboostposystem.rest;
 
+import io.github.bluething.myboostposystem.domain.CreateUserCommand;
+import io.github.bluething.myboostposystem.domain.UpdateUserCommand;
+import io.github.bluething.myboostposystem.domain.UserData;
+import io.github.bluething.myboostposystem.domain.UserService;
+import io.github.bluething.myboostposystem.exception.ResourceNotFoundException;
 import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -10,8 +16,11 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/v1/users")
+@RequiredArgsConstructor
 @Slf4j
 class UserController {
+
+    private final UserService userService;
 
     /**
      * Get all users with pagination support
@@ -22,8 +31,11 @@ class UserController {
     @GetMapping
     public ResponseEntity<Page<UserResponse>> getAllUsers(Pageable pageable) {
         log.info("Fetching all users with pagination: {}", pageable);
-        //TODO
-        return ResponseEntity.ok().build();
+
+        Page<UserData> userPage = userService.getAllUsers(pageable);
+        Page<UserResponse> responsePage = toResponsePage(userPage);
+
+        return ResponseEntity.ok(responsePage);
     }
 
     /**
@@ -35,8 +47,11 @@ class UserController {
     @GetMapping("/{id}")
     public ResponseEntity<UserResponse> getUserById(@PathVariable Integer id) {
         log.info("Fetching user with ID: {}", id);
-        //TODO
-        return ResponseEntity.ok().build();
+
+        return userService.getUserById(id)
+                .map(this::toResponse)
+                .map(response -> ResponseEntity.ok().body(response))
+                .orElseThrow(() -> new ResourceNotFoundException("User with ID " + id + " not found"));
     }
 
     /**
@@ -46,10 +61,13 @@ class UserController {
      * @return Created user details
      */
     @PostMapping
-    public ResponseEntity<UserResponse> createUser(@Valid @RequestBody UserCreateRequest request) {
+    public ResponseEntity<UserResponse> createUser(@Valid @RequestBody CreateUserRequest request) {
         log.info("Creating new user with email: {}", request.email());
-        //TODO
-        return ResponseEntity.status(HttpStatus.CREATED).build();
+
+        UserData createdUser = userService.createUser(toCreateCommand(request));
+        UserResponse response = toResponse(createdUser);
+
+        return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
     /**
@@ -62,10 +80,13 @@ class UserController {
     @PutMapping("/{id}")
     public ResponseEntity<UserResponse> updateUser(
             @PathVariable Integer id,
-            @Valid @RequestBody UserUpdateRequest request) {
+            @Valid @RequestBody UpdateUserRequest request) {
         log.info("Updating user with ID: {}", id);
-        //TODO
-        return ResponseEntity.ok().build();
+
+        return userService.updateUser(id, toUpdateCommand(request))
+                .map(this::toResponse)
+                .map(response -> ResponseEntity.ok().body(response))
+                .orElseThrow(() -> new ResourceNotFoundException("User with ID " + id + " not found"));
     }
 
     /**
@@ -77,7 +98,62 @@ class UserController {
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteUser(@PathVariable Integer id) {
         log.info("Deleting user with ID: {}", id);
-        //TODO
-        return ResponseEntity.noContent().build();
+
+        boolean deleted = userService.deleteUser(id);
+        return deleted ? ResponseEntity.noContent().build() : ResponseEntity.notFound().build();
+    }
+
+    CreateUserCommand toCreateCommand(CreateUserRequest request) {
+        if (request == null) {
+            return null;
+        }
+
+        return CreateUserCommand.builder()
+                .firstName(request.firstName())
+                .lastName(request.lastName())
+                .email(request.email())
+                .phone(request.phone())
+                .createdBy("SYSTEM")
+                .build();
+    }
+
+    UpdateUserCommand toUpdateCommand(UpdateUserRequest request) {
+        if (request == null) {
+            return null;
+        }
+
+        return UpdateUserCommand.builder()
+                .firstName(request.firstName())
+                .lastName(request.lastName())
+                .email(request.email())
+                .phone(request.phone())
+                .updatedBy("SYSTEM")
+                .build();
+    }
+
+    UserResponse toResponse(UserData data) {
+        if (data == null) {
+            return null;
+        }
+
+        return new UserResponse(
+                data.id(),
+                data.firstName(),
+                data.lastName(),
+                data.email(),
+                data.phone(),
+                data.createdBy(),
+                data.updatedBy(),
+                data.createdDatetime(),
+                data.updatedDatetime()
+        );
+    }
+
+    private Page<UserResponse> toResponsePage(Page<UserData> dataPage) {
+        if (dataPage == null) {
+            return null;
+        }
+
+        return dataPage.map(this::toResponse);
     }
 }
