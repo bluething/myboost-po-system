@@ -129,7 +129,9 @@ class UserServiceImpl implements UserService {
                 .email(command.email() != null ? command.email() : existingUser.getEmail())
                 .phone(command.phone() != null ? command.phone() : existingUser.getPhone())
                 .build();
+        updated.setCreatedBy(existingUser.getCreatedBy());
         updated.setUpdatedBy(command.updatedBy());
+        updated.setCreatedDatetime(existingUser.getCreatedDatetime());
         updated.setUpdatedDatetime(Instant.now());
 
         return updated;

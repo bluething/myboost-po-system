@@ -21,4 +21,3 @@ spring:
     change-log: classpath:/db/changelog/changelog-root.yaml
     enabled: true
     drop-first: false
-    default-schema: habib_ali_machpud
