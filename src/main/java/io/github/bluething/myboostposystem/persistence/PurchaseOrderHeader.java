@@ -24,7 +24,7 @@ import java.util.List;
 @Builder
 @EqualsAndHashCode(callSuper = false, of = "id")
 @ToString(exclude = {"details", "createdDatetime", "updatedDatetime"})
-class PurchaseOrderHeader extends BaseEntity {
+public class PurchaseOrderHeader extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;

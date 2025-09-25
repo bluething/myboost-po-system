@@ -18,7 +18,7 @@ import lombok.*;
 @Builder
 @EqualsAndHashCode(callSuper = false, of = "id")
 @ToString(exclude = {"createdDatetime", "updatedDatetime"})
-class Item extends BaseEntity {
+public class Item extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;

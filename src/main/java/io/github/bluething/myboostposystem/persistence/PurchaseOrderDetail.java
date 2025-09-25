@@ -19,7 +19,7 @@ import lombok.*;
 @Builder
 @EqualsAndHashCode(of = "id")
 @ToString(exclude = {"purchaseOrderHeader", "item"})
-class PurchaseOrderDetail {
+public class PurchaseOrderDetail {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
