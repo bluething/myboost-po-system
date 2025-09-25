@@ -1,4 +1,4 @@
-package io.github.bluething.myboostposystem.rest;
+package io.github.bluething.myboostposystem.rest.po;
 
 import io.github.bluething.myboostposystem.common.TimezoneUtil;
 import io.github.bluething.myboostposystem.domain.po.*;

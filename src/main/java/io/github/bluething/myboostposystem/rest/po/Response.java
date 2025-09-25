@@ -1,4 +1,4 @@
-package io.github.bluething.myboostposystem.rest;
+package io.github.bluething.myboostposystem.rest.po;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 

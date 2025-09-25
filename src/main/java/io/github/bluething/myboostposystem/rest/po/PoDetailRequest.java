@@ -1,4 +1,4 @@
-package io.github.bluething.myboostposystem.rest;
+package io.github.bluething.myboostposystem.rest.po;
 
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
