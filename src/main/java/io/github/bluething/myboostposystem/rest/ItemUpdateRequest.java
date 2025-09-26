@@ -14,12 +14,9 @@ record ItemUpdateRequest(@NotBlank(message = "Item name is required")
 
                          @NotNull(message = "Price is required")
                          @Min(value = 0, message = "Price must be non-negative")
-                         Integer price,
+                         Long price,
 
                          @NotNull(message = "Cost is required")
                          @Min(value = 0, message = "Cost must be non-negative")
-                         Integer cost,
-
-                         @NotBlank(message = "Updated by is required")
-                         String updatedBy) {
+                         Long cost) {
 }
