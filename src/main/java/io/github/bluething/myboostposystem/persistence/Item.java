@@ -15,7 +15,7 @@ import lombok.*;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
+@Builder(toBuilder = true)
 @EqualsAndHashCode(callSuper = false, of = "id")
 @ToString(exclude = {"createdDatetime", "updatedDatetime"})
 public class Item extends BaseEntity {
