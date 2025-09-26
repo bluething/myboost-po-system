@@ -1,4 +1,4 @@
-package io.github.bluething.myboostposystem.rest;
+package io.github.bluething.myboostposystem.rest.item;
 
 import io.github.bluething.myboostposystem.common.TimezoneUtil;
 import io.github.bluething.myboostposystem.domain.item.CreateItemCommand;
@@ -16,10 +16,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.net.URI;
-
 @RestController
-@RequestMapping("/api/items")
+@RequestMapping("/api/v1/items")
 @RequiredArgsConstructor
 @Slf4j
 class ItemController {

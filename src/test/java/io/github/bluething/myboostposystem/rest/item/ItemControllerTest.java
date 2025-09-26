@@ -1,4 +1,4 @@
-package io.github.bluething.myboostposystem.rest;
+package io.github.bluething.myboostposystem.rest.item;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.github.bluething.myboostposystem.domain.item.CreateItemCommand;
@@ -40,7 +40,7 @@ class ItemControllerTest {
     @Autowired
     private ObjectMapper objectMapper;
 
-    private static final String BASE_URL = "/api/items";
+    private static final String BASE_URL = "/api/v1/items";
     private static final Instant FIXED_DATE =
             LocalDateTime.of(2024, 1, 1, 10, 0, 0)
                     .atZone(ZoneId.of("Asia/Jakarta"))
