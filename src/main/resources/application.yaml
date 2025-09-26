@@ -6,7 +6,7 @@ spring:
   datasource:
     driver-class-name: org.postgresql.Driver
     url: jdbc:postgresql://localhost:5432/habib_ali_machpud
-    name: po_user
+    username: po_user
     password: ${DB_PASS}
     hikari:
       maximum-pool-size: 20
@@ -21,3 +21,8 @@ spring:
     change-log: classpath:/db/changelog/changelog-root.yaml
     enabled: true
     drop-first: false
+  main:
+    banner-mode: off
+  threads:
+    virtual:
+      enabled: true

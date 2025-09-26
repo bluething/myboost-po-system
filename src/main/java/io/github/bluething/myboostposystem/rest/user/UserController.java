@@ -5,11 +5,17 @@ import io.github.bluething.myboostposystem.domain.user.UpdateUserCommand;
 import io.github.bluething.myboostposystem.domain.user.UserData;
 import io.github.bluething.myboostposystem.domain.user.UserService;
 import io.github.bluething.myboostposystem.exception.ResourceNotFoundException;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.Min;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -25,12 +31,23 @@ class UserController {
     /**
      * Get all users with pagination support
      *
-     * @param pageable Pagination parameters
      * @return Page of users
      */
+    @Operation(
+            summary = "Get all users with pagination",
+            description = "Retrieve a paginated list of users ordered by ID"
+    )
+    @ApiResponse(responseCode = "200", description = "Successfully retrieved users")
     @GetMapping
-    public ResponseEntity<Page<UserResponse>> getAllUsers(Pageable pageable) {
-        log.info("Fetching all users with pagination: {}", pageable);
+    public ResponseEntity<Page<UserResponse>> getAllUsers(@Parameter(description = "Page number (0-based)", example = "0")
+                                                              @RequestParam(defaultValue = "0") @Min(0) Integer page,
+
+                                                          @Parameter(description = "Page size", example = "10")
+                                                              @RequestParam(defaultValue = "10") @Min(1) Integer size) {
+        log.info("Getting users - page: {}, size: {}", page, size);
+
+        Sort defaultSort = Sort.by(Sort.Direction.ASC, "id");
+        Pageable pageable = PageRequest.of(page, size, defaultSort);
 
         Page<UserData> userPage = userService.getAllUsers(pageable);
         Page<UserResponse> responsePage = toResponsePage(userPage);

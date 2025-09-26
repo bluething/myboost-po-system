@@ -6,12 +6,18 @@ import io.github.bluething.myboostposystem.domain.item.ItemData;
 import io.github.bluething.myboostposystem.domain.item.ItemService;
 import io.github.bluething.myboostposystem.domain.item.UpdateItemCommand;
 import io.github.bluething.myboostposystem.exception.ResourceNotFoundException;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.Positive;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -43,12 +49,26 @@ class ItemController {
     /**
      * Get all items with pagination support
      *
-     * @param pageable Pagination parameters
+     * @param page Page number (0-based)
+     * @param size Page size
      * @return Page of items
      */
+    @Operation(
+            summary = "Get all items with pagination",
+            description = "Retrieve a paginated list of items ordered by name"
+    )
+    @ApiResponse(responseCode = "200", description = "Successfully retrieved items")
     @GetMapping
-    public ResponseEntity<Page<ItemResponse>> getItems(Pageable pageable) {
-        log.info("Fetching all items with pagination: {}", pageable);
+    public ResponseEntity<Page<ItemResponse>> getItems(@Parameter(description = "Page number (0-based)", example = "0")
+                                                           @RequestParam(defaultValue = "0") @Min(0) Integer page,
+
+                                                       @Parameter(description = "Page size", example = "10")
+                                                           @RequestParam(defaultValue = "10") @Min(1) Integer size) {
+        log.info("Fetching all items - page: {}, size: {}", page, size);
+
+        // Default sort by name ascending (alphabetical order)
+        Sort defaultSort = Sort.by(Sort.Direction.ASC, "name");
+        Pageable pageable = PageRequest.of(page, size, defaultSort);
 
         Page<ItemData> itemDataPage = itemService.findAll(pageable);
         Page<ItemResponse> responsePage = itemDataPage.map(this::toResponse);

@@ -3,11 +3,17 @@ package io.github.bluething.myboostposystem.rest.po;
 import io.github.bluething.myboostposystem.common.TimezoneUtil;
 import io.github.bluething.myboostposystem.domain.po.*;
 import io.github.bluething.myboostposystem.exception.ResourceNotFoundException;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.Min;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -23,12 +29,26 @@ class PurchaseOrderController {
     /**
      * Get all po with pagination support
      *
-     * @param pageable Pagination parameters
+     * @param page Page number (0-based)
+     * @param size Page size
      * @return Page of pos
      */
+    @Operation(
+            summary = "Get all purchase orders with pagination",
+            description = "Retrieve a paginated list of purchase orders ordered by creation date (newest first)"
+    )
+    @ApiResponse(responseCode = "200", description = "Successfully retrieved purchase orders")
     @GetMapping
-    public ResponseEntity<Page<Response>> getPurchaseOrders(Pageable pageable) {
-        log.info("Listing POs with pageable: {}", pageable);
+    public ResponseEntity<Page<Response>> getPurchaseOrders(@Parameter(description = "Page number (0-based)", example = "0")
+                                                                @RequestParam(defaultValue = "0") @Min(0) Integer page,
+
+                                                            @Parameter(description = "Page size", example = "10")
+                                                                @RequestParam(defaultValue = "10") @Min(1) Integer size) {
+        log.info("Listing POs - page: {}, size: {}", page, size);
+
+        // Default sort by ID descending (newest purchase orders first)
+        Sort defaultSort = Sort.by(Sort.Direction.DESC, "id");
+        Pageable pageable = PageRequest.of(page, size, defaultSort);
 
         Page<POData> poData = purchaseOrderService.findAll(pageable);
         Page<Response> responsePage = toResponsePage(poData);
